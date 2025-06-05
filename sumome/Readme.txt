@@ -2,8 +2,8 @@
 Contributors: SumoMe
 Tags: ecommerce, marketing, email, analytics, leads
 Requires at least: 4.7
-Tested up to: 6.4.1
-Stable tag: 1.43
+Tested up to: 6.8.1
+Stable tag: 1.44
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,12 +73,12 @@ BDOW! seamlessly integrates with WooCommerce to create unique offers and discoun
 Have questions on how to increase conversions and sales for your online business? Your success is our success. Our dedicated Customer Experience team will make sure your business is growing and you’re getting the most out of BDOW!.
 
 = Fast, Secure, and SEO-friendly! =
-Compliant with GDPR and the latest SEO guidelines from Google so you can convert more visitors and make more sales. 
+Compliant with GDPR and the latest SEO guidelines from Google so you can convert more visitors and make more sales.
 
 = Easy to get started using dozens of professionally designed templates. =
 Get set up in minutes and use BDOW! (formerly Sumo) for FREE.
 
-See more at [https://bdow.com](https://bdow.com)! 
+See more at [https://bdow.com](https://bdow.com)!
 
 == Installation ==
 1. Upload folder wp-sumome.zip to the `/wp-content/plugins/` directory
@@ -113,10 +113,10 @@ The fastest place to receive support is emailing help[at]bdow[dot]com.
 
 
 == Screenshots ==
-1. BDOW! Dashboard
-2. See advanced campaign analytics
-3. Design pixel-perfect forms
-4. Connect to over 50 integrations
+1. Reduce Cart Abandonment Shortcut
+2. Grow Email List Shortcut
+3. Track how your forms perform
+4. See conversions and get Sumo Insights
 
 [See all of our screenshots at bdow.com](http://bdow.com/?src=wordpress_ss)
 

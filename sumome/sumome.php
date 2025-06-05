@@ -4,10 +4,10 @@
  * Plugin Name: SumoMe
  * Plugin URI: https://bdow.com
  * Description: Free Tools to automate your site growth from bdow.com
- * Version: 1.43
+ * Version: 1.44
  * Requires at least: 4.7
  * Requires PHP: 7.0
- * Tested up to: 6.4.1
+ * Tested up to: 6.8.1
  * Author: SumoMe, Formilytics
  * Author URI: https://www.bdow.com
  **/
