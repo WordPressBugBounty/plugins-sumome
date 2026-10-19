@@ -2,8 +2,8 @@
 Contributors: SumoMe
 Tags: ecommerce, marketing, email, analytics, leads
 Requires at least: 4.7
-Tested up to: 6.4.1
-Stable tag: 1.43
+Tested up to: 7.1.3
+Stable tag: 1.45
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,12 +73,12 @@ BDOW! seamlessly integrates with WooCommerce to create unique offers and discoun
 Have questions on how to increase conversions and sales for your online business? Your success is our success. Our dedicated Customer Experience team will make sure your business is growing and you’re getting the most out of BDOW!.
 
 = Fast, Secure, and SEO-friendly! =
-Compliant with GDPR and the latest SEO guidelines from Google so you can convert more visitors and make more sales. 
+Compliant with GDPR and the latest SEO guidelines from Google so you can convert more visitors and make more sales.
 
 = Easy to get started using dozens of professionally designed templates. =
 Get set up in minutes and use BDOW! (formerly Sumo) for FREE.
 
-See more at [https://bdow.com](https://bdow.com)! 
+See more at [https://bdow.com](https://bdow.com)!
 
 == Installation ==
 1. Upload folder wp-sumome.zip to the `/wp-content/plugins/` directory
@@ -122,6 +122,23 @@ The fastest place to receive support is emailing help[at]bdow[dot]com.
 
 
 == Changelog ==
+
+= 1.45 =
+* Fixed malformed admin menu icon markup that italicized the WordPress dashboard.
+* Sites with WP_DEBUG enabled now load the production script.
+* Tested up to WordPress 7.1.
+
+= 1.44 =
+* Tested up to WordPress 6.8.
+
+= 1.43 =
+* Updated plugin listing and assets.
+
+= 1.42 =
+* Updated plugin listing and assets.
+
+= 1.41 =
+* Fix styling bug.
 
 = 1.40 =
 * Sumo transition. Updated about page to new BDOW! design, new BDOW logo and icon.

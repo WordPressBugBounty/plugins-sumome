@@ -7,6 +7,11 @@ class WP_Plugin_SumoMe
      */
     public $dataSumoPlatform;
 
+    /**
+     * @var string
+     */
+    public $scriptSrc;
+
     public function __construct(){
         add_action('wp_ajax_sumome_main', [$this, 'ajax_sumome_main']);
         add_action('wp_ajax_sumome_dashboard_welcome', [$this, 'ajax_sumome_dashboard_welcome']);
@@ -39,6 +44,8 @@ class WP_Plugin_SumoMe
         if(get_option('endurance_user') === 1){
             $this->dataSumoPlatform = 'wordpress-endurance';
         }
+
+        $this->scriptSrc = defined('BDOW_SCRIPT_SRC') ? BDOW_SCRIPT_SRC : '//load.sumome.com/';
     }
 
     public static function activate_SumoMe_plugin(){
@@ -190,8 +197,8 @@ class WP_Plugin_SumoMe
                     //save users site ID from the manually inserted tag
                     update_option('sumome_site_id', $manuallyInsertedScriptTagSiteID);
 
-                    $sumomeScriptTag[]  = '<script src="//load.sumome.com/" data-sumo-site-id="' . esc_attr($manuallyInsertedScriptTagSiteID) . '" async="async"></script>';
-                    $sumomeScriptTag[]  = "<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='" . esc_attr($manuallyInsertedScriptTagSiteID) . "';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumome.com/');</script>";
+                    $sumomeScriptTag[]  = '<script src="' . $this->scriptSrc . '" data-sumo-site-id="' . esc_attr($manuallyInsertedScriptTagSiteID) . '" async="async"></script>';
+                    $sumomeScriptTag[]  = "<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='" . esc_attr($manuallyInsertedScriptTagSiteID) . "';v.parentNode.insertBefore(j,v)})(window,document,'script','" . $this->scriptSrc . "');</script>";
                     $modified_themeFile = str_replace($sumomeScriptTag, '', $themeFile_contents);
 
                     //make backup of theme file just in case
@@ -212,7 +219,7 @@ class WP_Plugin_SumoMe
         $site_id = get_option('sumome_site_id');
 
         if($site_id){
-            echo("<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='" . esc_attr($site_id) . "';j.dataset.sumoPlatform='" . $this->dataSumoPlatform . "';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumome.com/');</script>");
+            echo("<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='" . esc_attr($site_id) . "';j.dataset.sumoPlatform='" . $this->dataSumoPlatform . "';v.parentNode.insertBefore(j,v)})(window,document,'script','" . $this->scriptSrc . "');</script>");
         }
     }
 
@@ -227,13 +234,39 @@ class WP_Plugin_SumoMe
 
         if($site_id){
             include(SUMOME__PLUGIN_DIR . '/js/preload.php');
-            echo("<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='" . esc_attr($site_id) . "';j.dataset.sumoPlatform='" . $this->dataSumoPlatform . "';j.dataset.sumoMode='admin';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumome.com/');</script>");
+            echo("<script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='" . esc_attr($site_id) . "';j.dataset.sumoPlatform='" . $this->dataSumoPlatform . "';j.dataset.sumoMode='admin';v.parentNode.insertBefore(j,v)})(window,document,'script','" . $this->scriptSrc . "');</script>");
         }
     }
 
-    public function admin_enqueue_scripts(){
-        wp_enqueue_style('sumome-admin-styles', plugins_url("styles/styles.css", SUMOME__PLUGIN_FILE));
-        wp_enqueue_style('sumome-admin-media', plugins_url("styles/media.css", SUMOME__PLUGIN_FILE));
+    public function admin_enqueue_scripts() {
+        // Use your plugin’s main file for paths/URLs.
+        $base_file = defined('SUMOME__PLUGIN_FILE') ? SUMOME__PLUGIN_FILE : __FILE__;
+
+        // styles.css
+        $styles_url  = plugins_url('styles/styles.css', $base_file);
+        $styles_path = plugin_dir_path($base_file) . 'styles/styles.css';
+        $styles_ver  = file_exists($styles_path) ? filemtime($styles_path) : null;
+
+        wp_enqueue_style(
+            'sumome-admin-styles',
+            $styles_url,
+            [],              // deps
+            $styles_ver,     // version for cache-busting
+            'all'            // media
+        );
+
+        // media.css
+        $media_url  = plugins_url('styles/media.css', $base_file);
+        $media_path = plugin_dir_path($base_file) . 'styles/media.css';
+        $media_ver  = file_exists($media_path) ? filemtime($media_path) : null;
+
+        wp_enqueue_style(
+            'sumome-admin-media',
+            $media_url,
+            [],
+            $media_ver,
+            'all'
+        );
     }
 
     public function sumome_render_welcome_page(){
@@ -300,7 +333,7 @@ class WP_Plugin_SumoMe
     }
 
     public function dashboard_setup(){
-        $widget_name = '<i class="dashicons-before" aria-hidden="true"><img src="' . plugins_url('images/icon_dark.png', SUMOME__PLUGIN_FILE) . '"</i> Sumo';
+        $widget_name = '<i class="dashicons-before" aria-hidden="true"><img src="' . esc_url(plugins_url('images/icon_dark.png', SUMOME__PLUGIN_FILE)) . '" alt=""></i> Sumo';
         add_meta_box('my_dashboard_widget', $widget_name, [$this, 'dashboard_widget'], 'dashboard', 'normal', 'high');
     }
 
